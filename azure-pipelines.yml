@@ -1,3 +1,7 @@
+# Maven
+# Builds project and runs automated tests
+# Eider Mauricio Aristizabal Erazo
+
 trigger:
 - master
 
@@ -12,17 +16,6 @@ steps:
     organization: 'luisorduz'
     scannerMode: 'Other'
 
-
-- task: SonarCloudPrepare@1
-  inputs:
-    SonarCloud: 'andresorduz1test'
-    organization: 'luisorduz'
-    scannerMode: 'CLI'
-    configMode: 'manual'
-    cliSources: '.'
-# Builds project and runs automated tests
-
-
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -34,18 +27,7 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     sonarQubeRunAnalysis: true
     goals: 'install'
-# Maven
 
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    javaHomeOption: 'JDKVersion'
-    mavenVersionOption: 'Default'
-    mavenAuthenticateFeed: false
-    effectivePomSkip: false
-    sonarQubeRunAnalysis: false
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
